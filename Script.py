@@ -7,40 +7,41 @@ from dotenv import load_dotenv
 # ✅ Load environment variables
 load_dotenv()
 
-# ✅ Correctly fetching API keys
-API_KEY = os.getenv("AIzaSyCf4HTDktCFoquRQUlAw4jYtdkFcgsUOdc")  # Change to the correct variable name
-OPENAI_API_KEY = os.getenv("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")  # Change to the correct variable name
+# ✅ Fetch API keys correctly
+OPENAI_API_KEY = os.getenv("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")
+YOUTUBE_API_KEY = os.getenv("AIzaSyCf4HTDktCFoquRQUlAw4jYtdkFcgsUOdc")
+
+# ✅ Validate API Keys
+if not OPENAI_API_KEY or not YOUTUBE_API_KEY:
+    st.error("⚠️ API keys are missing! Please check your `.env` file.")
+    st.stop()
 
 # ✅ Set OpenAI API Key
 openai.api_key = OPENAI_API_KEY
 
+# ✅ Streamlit UI
 st.title("🚀 AI YouTube Script Generator (Beats Competitor)")
 
-# Input fields
-competitor_url = st.text_input("Enter Competitor's YouTube Video URL")
-your_title = st.text_input("Enter Your Video Title")
+# ✅ User Inputs
+competitor_url = st.text_input("🔍 Enter Competitor's YouTube Video URL")
+your_title = st.text_input("✍️ Enter Your Video Title")
 
-if st.button("Analyze Competitor & Generate Better Script"):
+if st.button("🚀 Analyze & Generate Better Script"):
     try:
-        # ✅ Validate API Keys
-        if not API_KEY or not OPENAI_API_KEY:
-            st.error("API keys are missing! Please check your `.env` file.")
-            st.stop()
-
         # ✅ Extract Video ID
         if "v=" in competitor_url:
             video_id = competitor_url.split("v=")[-1].split("&")[0]
         else:
-            st.error("Invalid YouTube URL format!")
+            st.error("❌ Invalid YouTube URL format!")
             st.stop()
 
         # ✅ Fetch competitor video details
-        video_details_url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={video_id}&key={API_KEY}"
+        video_details_url = f"https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={video_id}&key={YOUTUBE_API_KEY}"
         response = requests.get(video_details_url)
         video_data = response.json()
 
         if "items" not in video_data or not video_data["items"]:
-            st.error("Invalid competitor video URL or API limit reached.")
+            st.error("❌ Invalid video URL or API quota exceeded.")
             st.stop()
 
         competitor_video = video_data["items"][0]
@@ -90,4 +91,4 @@ if st.button("Analyze Competitor & Generate Better Script"):
         st.write(script)
 
     except Exception as e:
-        st.error(f"An error occurred: {e}")
+        st.error(f"🚨 Error Occurred: {e}")
