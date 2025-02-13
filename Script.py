@@ -90,3 +90,31 @@ if st.button("Analyze Competitor & Generate Better Script"):
 
     except Exception as e:
         st.error(f"❌ An error occurred: {e}")
+import os
+import streamlit as st
+import openai
+from dotenv import load_dotenv
+
+# ✅ Load environment variables
+load_dotenv()
+
+# ✅ Fetch API keys
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+
+# ✅ Validate API Keys
+if not OPENAI_API_KEY or not YOUTUBE_API_KEY:
+    st.error("❌ API keys are missing! Please check your `.env` file.")
+    st.stop()
+
+# ✅ Set OpenAI API Key
+openai.api_key = OPENAI_API_KEY
+
+st.title("🚀 AI YouTube Script Generator")
+
+# ✅ User Inputs
+competitor_url = st.text_input("Enter Competitor's YouTube Video URL")
+your_title = st.text_input("Enter Your Video Title")
+
+if st.button("Analyze Competitor & Generate Better Script"):
+    st.write("Processing...")
