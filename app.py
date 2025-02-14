@@ -6,13 +6,6 @@ try:
 except ModuleNotFoundError:
     subprocess.check_call(["pip", "install", "openai"])
     import openai
-import openai
-
-client = openai.OpenAI(api_key="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")
-
-response = client.chat.completions.create(
-    model="gpt-4",
-   
 
 import streamlit as st
 import requests
