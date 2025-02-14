@@ -83,11 +83,11 @@ if st.button("🔥 Find Viral Topics Now"):
         if all_results:
             st.success(f"🎯 Found {len(all_results)} trending videos!")
             for result in all_results:
-                st.markdown(f"**🎬 {result['Title']}**  
-"
-                            f"🔗 [Watch Video]({result['URL']})  
-"
-                            f"👀 Views: {result['Views']}")
+                st.markdown(
+                    f"**🎬 {result['Title']}**  \n"
+                    f"🔗 [Watch Video]({result['URL']})  \n"
+                    f"👀 Views: {result['Views']}"
+                )
                 st.write("---")
 
         else:
