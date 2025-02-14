@@ -12,7 +12,7 @@ client = openai.OpenAI(api_key="sk-proj-fjoK2IwOCG-KO97vsOsNy1u2bMLwUAwEQiKl8J8D
 
 response = client.chat.completions.create(
     model="gpt-4",
-    messages=[{"role": "user", "content": prompt}]
+    
 )
 
 generated_text = response.choices[0].message.content
