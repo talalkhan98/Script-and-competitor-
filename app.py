@@ -102,14 +102,17 @@ st.header("🤖 AI-Powered Title & Hashtag Generator")
 title_input = st.text_input("✍️ Enter Video Title:")
 if st.button("🚀 Generate AI-Optimized Title & Hashtags"):
     if title_input:
-        openai.api_key = OPENAI_API_KEY
-        prompt = f"Generate an engaging YouTube title and hashtags for: {title_input}"
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}]
-        )
-        result = response["choices"][0]["message"]["content"]
-        st.success("✅ AI-Generated Title & Hashtags:")
-        st.write(result)
+        try:
+            openai.api_key = OPENAI_API_KEY
+            prompt = f"Generate an engaging YouTube title and hashtags for: {title_input}"
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            result = response["choices"][0]["message"]["content"]
+            st.success("✅ AI-Generated Title & Hashtags:")
+            st.write(result)
+        except Exception as e:
+            st.error(f"❌ OpenAI API Error: {e}")
     else:
         st.warning("⚠️ Please enter a video title first!")
