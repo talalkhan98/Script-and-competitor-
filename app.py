@@ -3,9 +3,9 @@ import requests
 import openai
 from datetime import datetime, timedelta
 
-# 🔑 API Keys (Replace with your own keys)
-YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY"  # Get from Google Cloud Console
-OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"    # Get from OpenAI
+# 🔑 Enter Your API Keys Here
+YOUTUBE_API_KEY = "AIzaSyCf4HTDktCFoquRQUlAw4jYtdkFcgsUOdc"  # Replace with your actual API key
+OPENAI_API_KEY = "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"    # Replace with your actual OpenAI API key
 
 # URLs
 YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
@@ -83,11 +83,9 @@ if st.button("🔥 Find Viral Topics Now"):
         if all_results:
             st.success(f"🎯 Found {len(all_results)} trending videos!")
             for result in all_results:
-                st.markdown(f"**🎬 {result['Title']}**  
-"
-                            f"🔗 [Watch Video]({result['URL']})  
-"
-                            f"👀 Views: {result['Views']}")
+                st.markdown(f"""**🎬 {result['Title']}**  
+🔗 [Watch Video]({result['URL']})  
+👀 Views: {result['Views']}""")
                 st.write("---")
 
         else:
@@ -104,12 +102,17 @@ if st.button("🚀 Generate AI-Optimized Title & Hashtags"):
     if title_input:
         openai.api_key = OPENAI_API_KEY
         prompt = f"Generate an engaging YouTube title and hashtags for: {title_input}"
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}]
-        )
-        result = response["choices"][0]["message"]["content"]
-        st.success("✅ AI-Generated Title & Hashtags:")
-        st.write(result)
+        
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            result = response["choices"][0]["message"]["content"]
+            st.success("✅ AI-Generated Title & Hashtags:")
+            st.write(result)
+        except Exception as e:
+            st.error(f"⚠️ OpenAI API Error: {e}")
+    
     else:
         st.warning("⚠️ Please enter a video title first!")
