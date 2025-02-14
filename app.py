@@ -1,3 +1,12 @@
+import os
+import subprocess
+
+try:
+    import openai
+except ModuleNotFoundError:
+    subprocess.check_call(["pip", "install", "openai"])
+    import openai
+
 import streamlit as st
 import requests
 import openai
